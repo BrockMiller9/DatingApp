@@ -1,5 +1,6 @@
 
 using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +17,13 @@ namespace API.Extensions
                  opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
              });
 
-            services.AddCors();
+            services.AddCors(); // this will add the cors service to our application
 
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<ITokenService, TokenService>();// this will add the token service to our application
+
+            services.AddScoped<IUserRepository, UserRepository>();// this will add the user repository to our application
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // this will add the automapper to our application
 
             return services;
         }
