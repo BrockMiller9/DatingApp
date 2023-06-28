@@ -13,7 +13,9 @@ namespace API.Helpers
             CreateMap<AppUser, MemberDto>()
             .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
             .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge())); // this is going to map from our AppUser to our MemberDto and we're going to do this by using the CreateMap method
-            CreateMap<Photo, PhotoDto>(); // this is going to map from our Photo to our PhotoDto and we're going to do this by using the CreateMap method
+            CreateMap<Photo, PhotoDto>();
+            CreateMap<MemberUpdateDto, AppUser>();
+
         }
     }
 }

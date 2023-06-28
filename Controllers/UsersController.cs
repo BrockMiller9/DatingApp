@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using API.Interfaces;
 using AutoMapper;
 using API.DTOs;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -45,6 +46,21 @@ namespace API.Controllers
             return await _userRepository.GetMemberAsync(username); // this will get a user by their username from the database
 
 
+        }
+
+        [HttpPut] // this is the route for updating a user
+        public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; // this will get the username from the token
+            var user = await _userRepository.GetUserByUsernameAsync(username); // this will get the user from the database using the username from the token
+
+            if (user == null) return NotFound(); // if the user is not found in the database then return a 404
+
+            _mapper.Map(memberUpdateDto, user); // this will map the memberUpdateDto to the user
+
+            if (await _userRepository.SaveAllAsync()) return NoContent(); // if the user is updated successfully then return a 204
+
+            return BadRequest("Failed to update user"); // if the user is not updated successfully then return a 400
         }
     }
 }
