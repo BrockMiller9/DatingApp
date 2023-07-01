@@ -20,8 +20,9 @@ namespace API.Services
         {
             var claims = new List<Claim> //creates a list of claims- a claim is a statement about the user that is encoded into the token
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName) //adds the username to the claims
-            
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()), //adds the username to the claims
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature); //creates the credentials that will be used to sign the token

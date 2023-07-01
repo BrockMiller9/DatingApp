@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using API.DTOs;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using API.Helpers;
 
 namespace API.Data
 {
@@ -47,11 +48,27 @@ namespace API.Data
             _context.Entry(user).State = EntityState.Modified; // this will update the user in the database
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users
-            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            var query = _context.Users.AsQueryable();
+
+            query = query.Where(u => u.UserName != userParams.CurrentUsername); // this will filter out the current user from the list of users
+            query = query.Where(u => u.Gender == userParams.Gender);
+
+            var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1)); // this will get the minimum date of birth
+            var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge)); // this will get the maximum date of birth
+
+            query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob); // this will filter out the users based on their date of birth
+
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u => u.Created),
+                _ => query.OrderByDescending(u => u.LastActive)
+            };
+
+
+            return await PagedList<MemberDto>.CreateAsync(query.AsNoTracking().ProjectTo<MemberDto>(_mapper.ConfigurationProvider), userParams.PageNumber, userParams.PageSize);
+
         }
 
         public async Task<MemberDto> GetMemberAsync(string username)

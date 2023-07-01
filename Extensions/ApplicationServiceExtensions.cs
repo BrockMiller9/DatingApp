@@ -29,6 +29,7 @@ namespace API.Extensions
 
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings")); // this will add the cloudinary settings to our application
             services.AddScoped<IPhotoService, PhotoService>(); // this will add the photo service to our application
+            services.AddScoped<LogUserActivity>(); // this will add the log user activity service to our application
 
             return services;
         }
