@@ -9,5 +9,6 @@ namespace API.DTOs
         public string Token { get; set; } //the token of the user
 
         public string PhotoUrl { get; set; }
+        public string KnownAs { get; set; }
     }
 }
