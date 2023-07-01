@@ -38,11 +38,9 @@ namespace API.Entities
 
         public List<Photo> Photos { get; set; } = new(); // this is going to be a list of photos
 
+        public List<UserLike> LikedByUsers { get; set; } // this is going to be a list of users that like the current user
 
-        // public int GetAge()
-        // {
-        //     return DateOfBirth.CalculateAge();
-        // }
+        public List<UserLike> LikedUsers { get; set; } // this is going to be a list of users that the current user likes
     }
 
 

@@ -17,7 +17,7 @@ namespace API.Helpers
 
             var repo = resultContext.HttpContext.RequestServices.GetService<IUserRepository>(); // this will get the user repository
 
-            var user = await repo.GetUserByIdAsync(int.Parse(userId)); // this will get the user from the database
+            var user = await repo.GetUserByIdAsync(userId); // this will get the user from the database
 
             user.LastActive = DateTime.UtcNow; // this will set the last active property to the current date and time
 
