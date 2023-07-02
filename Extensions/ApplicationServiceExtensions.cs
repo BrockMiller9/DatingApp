@@ -31,6 +31,7 @@ namespace API.Extensions
             services.AddScoped<IPhotoService, PhotoService>(); // this will add the photo service to our application
             services.AddScoped<LogUserActivity>(); // this will add the log user activity service to our application
             services.AddScoped<ILikesRepository, LikesRepository>(); // this will add the likes repository to our application
+            services.AddScoped<IMessageRepository, MessageRepository>(); // this will add the message repository to our application
 
             return services;
         }
