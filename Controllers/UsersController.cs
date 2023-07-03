@@ -51,7 +51,6 @@ namespace API.Controllers
 
         }
 
-
         [HttpGet("{username}")] // we are defining the route here for one user - think of flask routes (app.route('/users/<username>')
 
         public async Task<ActionResult<MemberDto>> GetUser(string username)

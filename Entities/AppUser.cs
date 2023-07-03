@@ -1,20 +1,11 @@
 
 using API.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities
 {
-    public class AppUser
+    public class AppUser : IdentityUser<int>
     {
-
-        //this class is going to represent our user entity inside our database- ie our user table
-        public int Id { get; set; }
-
-
-        public string UserName { get; set; }
-
-        public byte[] PasswordHash { get; set; } // byte[] is a byte array
-
-        public byte[] PasswordSalt { get; set; }
 
         public DateOnly DateOfBirth { get; set; }
 
@@ -45,6 +36,8 @@ namespace API.Entities
         public List<Message> MessagesSent { get; set; } // this is going to be a list of messages that the current user has sent
 
         public List<Message> MessagesReceived { get; set; } // this is going to be a list of messages that the current user has received
+
+        public ICollection<AppUserRole> UserRoles { get; set; }
     }
 
 
